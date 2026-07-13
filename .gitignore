@@ -1,0 +1,38 @@
+# Node.js dependencies
+node_modules/
+
+# Astro build output
+.dist/
+dist/
+.astro/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.*
+
+# Static assets or temporary files
+.cache/
+.idea/
+.vscode/
+
+# MacOS Finder files
+.AppleDouble
+.LSOverride
+
+# Generated npm files
+package-lock.json
+
+# Ignore local IDE and system files
+*~
+*.swp
+*.swo

@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { events } from '../data/events';
+const latest = events[0];
+---
+<BaseLayout title="What&apos;s Next?" description="A Zenika Singapore mini-conference series for AI-driven development and agentic workflows.">
+  <section class="relative overflow-hidden rounded-[2rem] border border-white/10 bg-slate-950/80 px-6 py-16 shadow-soft sm:px-10 md:px-14">
+    <div class="absolute inset-x-0 top-0 h-72 bg-gradient-to-b from-zenika-accent/15 via-transparent to-transparent blur-3xl"></div>
+    <div class="relative z-10 grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+      <div class="max-w-2xl">
+        <p class="mb-4 inline-flex rounded-full bg-zenika-accentSoft px-4 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-zenika-accent">AI-Driven Development</p>
+        <h1 class="text-4xl font-semibold tracking-tight text-white sm:text-5xl">What&apos;s Next? by Zenika Singapore</h1>
+        <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-300">A static showcase for the inaugural July 2026 mini-conference, documenting speakers, agenda, and event highlights for technology leaders exploring AI transformation.</p>
+        <div class="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
+          <a class="inline-flex items-center justify-center rounded-full bg-zenika-accent px-6 py-3 text-sm font-semibold text-white transition hover:bg-red-600" href={latest.registrationUrl} rel="noopener" target="_blank" onclick="window.plausible && window.plausible('Registration CTA')">Register interest</a>
+          <a class="inline-flex items-center justify-center rounded-full border border-slate-700 bg-slate-900/80 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:border-slate-500" href="/events">View past events</a>
+        </div>
+      </div>
+      <div class="rounded-[2rem] border border-white/10 bg-slate-900/80 p-8 shadow-soft">
+        <p class="text-sm uppercase tracking-[0.25em] text-slate-400">Latest edition</p>
+        <h2 class="mt-4 text-2xl font-semibold text-white">{latest.title}</h2>
+        <p class="mt-3 text-slate-300">{latest.theme}</p>
+        <div class="mt-6 space-y-3 text-sm text-slate-300">
+          <p><strong>Date:</strong> {latest.date}</p>
+          <p><strong>Venue:</strong> {latest.venue}</p>
+          <p><strong>Location:</strong> Microsoft Singapore</p>
+        </div>
+        <div class="mt-8 flex flex-wrap gap-2">
+          {latest.partners.map((partner) => (
+            <span class="rounded-full border border-slate-700 bg-slate-800/80 px-4 py-2 text-xs uppercase tracking-[0.2em] text-slate-300">{partner}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-14 grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+    <article class="rounded-[2rem] border border-white/10 bg-slate-950/80 p-8 shadow-soft">
+      <h2 class="text-2xl font-semibold text-white">Why What&apos;s Next?</h2>
+      <p class="mt-4 text-slate-300 leading-8">What&apos;s Next? is a recurring event series focused on AI-driven development, agentic AI workflows, and enterprise transformation. It is designed for senior engineering leaders, AI practitioners, and decision-makers evaluating how AI changes software delivery and operations.</p>
+      <div class="mt-8 grid gap-4 sm:grid-cols-2">
+        <div class="rounded-3xl bg-slate-900/80 p-5">
+          <h3 class="text-sm font-semibold uppercase tracking-[0.24em] text-zenika-accent">Audience</h3>
+          <p class="mt-3 text-slate-300">CTOs, engineering leads, AI teams, and transformation sponsors.</p>
+        </div>
+        <div class="rounded-3xl bg-slate-900/80 p-5">
+          <h3 class="text-sm font-semibold uppercase tracking-[0.24em] text-zenika-accent">Topics</h3>
+          <p class="mt-3 text-slate-300">Agentic workflows, AI tools, productivity, and real-world transformation.</p>
+        </div>
+      </div>
+    </article>
+    <aside class="rounded-[2rem] border border-white/10 bg-slate-950/80 p-8 shadow-soft">
+      <h2 class="text-2xl font-semibold text-white">Featured partners</h2>
+      <p class="mt-4 text-slate-300 leading-7">The inaugural edition was delivered in partnership with Microsoft Singapore and supported by Zenika Singapore&apos;s local AI practice.</p>
+      <div class="mt-8 grid gap-4 sm:grid-cols-2">
+        <div class="rounded-3xl border border-slate-800 bg-slate-900/80 p-5 text-center">
+          <p class="text-sm uppercase tracking-[0.24em] text-slate-400">Lead partner</p>
+          <p class="mt-3 text-xl font-semibold text-white">Microsoft</p>
+        </div>
+        <div class="rounded-3xl border border-slate-800 bg-slate-900/80 p-5 text-center">
+          <p class="text-sm uppercase tracking-[0.24em] text-slate-400">Host</p>
+          <p class="mt-3 text-xl font-semibold text-white">Zenika Singapore</p>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="mt-14 rounded-[2rem] border border-white/10 bg-slate-950/80 p-8 shadow-soft">
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+      <div>
+        <h2 class="text-2xl font-semibold text-white">Explore the archive</h2>
+        <p class="mt-3 text-slate-300">Start with the inaugural edition and add future events as the series grows.</p>
+      </div>
+      <a href="/events" class="inline-flex items-center justify-center rounded-full bg-slate-800 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-700">See all event editions</a>
+    </div>
+  </section>
+</BaseLayout>
