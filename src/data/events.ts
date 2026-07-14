@@ -202,6 +202,21 @@ export const events: Edition[] = [
         image: "/assets/speakers/joseph.png",
       },
     ],
-    gallery: [],
+    // Curated shortlist. 4 requested filenames (A38A2814, A38A2820,
+    // A38A2874, A38A2889) didn't match anything actually exported and were
+    // dropped; add them back here once they're placed in public/assets/gallery/.
+    gallery: [
+      "/assets/gallery/A38A2696.jpg",
+      "/assets/gallery/A38A2711.jpg",
+      "/assets/gallery/A38A2787.jpg",
+      "/assets/gallery/IMG_0027.jpg",
+      "/assets/gallery/A38A2897.jpg",
+      "/assets/gallery/A38A2923.jpg",
+      "/assets/gallery/A38A3014.jpg",
+      "/assets/gallery/A38A3028.jpg",
+      "/assets/gallery/IMG_9841.jpg",
+      "/assets/gallery/IMG_0080.jpg",
+      "/assets/gallery/A38A3040.jpg",
+    ],
   },
 ];

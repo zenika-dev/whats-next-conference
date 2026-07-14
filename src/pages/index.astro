@@ -172,7 +172,7 @@ const galleryImages = edition.gallery.map(withBase);
         <div class="min-w-0">
           <div class="mb-2 text-[12.5px] font-semibold uppercase tracking-[0.12em] text-brand">{edition.label}</div>
           <h3 class="mb-2 font-semibold text-ink" style="font-size:clamp(19px,2.2vw,25px)">{edition.title}</h3>
-          <p class="text-[14.5px] text-muted">{edition.venue}, {edition.venueLine.split(' · ')[0]} · In partnership with {edition.partner}</p>
+          <p class="text-[14.5px] text-muted">{edition.venue}, {edition.venueLine.split(' · ')[0]} · In association with {edition.partner}</p>
         </div>
         <div class="whitespace-nowrap text-[15px] font-semibold text-brand">View edition →</div>
       </a>
@@ -326,32 +326,35 @@ const galleryImages = edition.gallery.map(withBase);
       )}
     </div>
 
-    <!-- Full-screen photo lightbox / carousel -->
+    <!-- Full-screen photo lightbox / carousel. The dialog fills the viewport
+         so the controls below are positioned relative to the screen edges,
+         not the photo — otherwise a large photo leaves no room for them and
+         they get clipped by the viewport instead of floating around it. -->
     <dialog
       id="gallery-lightbox"
-      class="max-h-[90vh] max-w-[92vw] rounded-2xl border-0 bg-transparent p-0 [&::backdrop]:bg-navy/90"
+      class="h-full max-h-none w-full max-w-none border-0 bg-transparent p-0 [&::backdrop]:bg-navy/90"
     >
-      <div class="relative flex max-h-[90vh] max-w-[92vw] items-center justify-center">
+      <div id="gallery-lightbox-frame" class="relative flex h-full w-full items-center justify-center p-4 sm:p-8">
         <button
           type="button"
           data-gallery-close
           aria-label="Close gallery"
-          class="absolute -top-4 -right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white text-[18px] font-semibold text-ink shadow-soft hover:bg-paper sm:-top-5 sm:-right-5"
+          class="absolute right-3 top-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white text-[18px] font-semibold text-ink shadow-soft hover:bg-paper sm:right-6 sm:top-6"
         >✕</button>
         <button
           type="button"
           data-gallery-prev
           aria-label="Previous photo"
-          class="absolute left-2 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/90 text-[22px] font-semibold text-ink shadow-soft hover:bg-white sm:left-4"
+          class="absolute left-2 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/90 text-[22px] font-semibold text-ink shadow-soft hover:bg-white sm:left-6"
         >‹</button>
-        <img id="gallery-lightbox-img" src="" alt="" class="max-h-[85vh] max-w-full rounded-xl object-contain" />
+        <img id="gallery-lightbox-img" src="" alt="" class="max-h-[78vh] max-w-[82vw] rounded-xl object-contain" />
         <button
           type="button"
           data-gallery-next
           aria-label="Next photo"
-          class="absolute right-2 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/90 text-[22px] font-semibold text-ink shadow-soft hover:bg-white sm:right-4"
+          class="absolute right-2 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/90 text-[22px] font-semibold text-ink shadow-soft hover:bg-white sm:right-6"
         >›</button>
-        <p id="gallery-lightbox-counter" class="absolute -bottom-8 left-1/2 -translate-x-1/2 text-[13px] font-medium text-white/80"></p>
+        <p id="gallery-lightbox-counter" class="absolute bottom-3 left-1/2 -translate-x-1/2 text-[13px] font-medium text-white/80 sm:bottom-6"></p>
       </div>
     </dialog>
   </section>
@@ -386,8 +389,14 @@ const galleryImages = edition.gallery.map(withBase);
     dialog.querySelector('[data-gallery-next]').addEventListener('click', next);
     dialog.querySelector('[data-gallery-prev]').addEventListener('click', prev);
 
+    // Click on the backdrop area (outside the image/controls) closes the
+    // dialog. The frame div fills the whole dialog, so a backdrop click
+    // lands on either the dialog itself or directly on the frame's own
+    // background — never on the image or a button, which are separate
+    // elements.
+    const frame = document.getElementById('gallery-lightbox-frame');
     dialog.addEventListener('click', (event) => {
-      if (event.target === dialog) dialog.close();
+      if (event.target === dialog || event.target === frame) dialog.close();
     });
 
     dialog.addEventListener('keydown', (event) => {
