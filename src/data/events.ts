@@ -1,102 +1,216 @@
-export const events = [
+// Single source of truth for the What's Next? site content.
+// The site is a single static page rendered from this data.
+
+export const site = {
+  name: "What's Next?",
+  organiser: "Zenika Singapore",
+  tagline: "Where Singapore's builders ask what comes after the hype.",
+  intro:
+    "A recurring evening of candid, practitioner-led conversation on AI-Driven Development: the workflows, tools and transformation reshaping how software gets built.",
+  registerUrl: "https://lu.ma/whatsnext",
+  // Set false to hide the "Next edition — to be announced" card.
+  showUpcoming: true,
+};
+
+// Audience the series is built for.
+export const audience = [
+  "CTOs & senior leadership",
+  "Engineering leads",
+  "AI practitioners",
+  "Product & platform teams",
+];
+
+// The recurring themes, shown as numbered cards in the About section.
+export const themes = [
+  {
+    no: "01",
+    title: "Agentic AI Workflows",
+    description:
+      "Autonomous agents in the development loop — orchestration, guardrails and where hand-offs to humans still matter.",
+  },
+  {
+    no: "02",
+    title: "AI Tools",
+    description:
+      "The tooling stack that actually earns its place — copilots, evaluators and the workflows teams keep versus drop.",
+  },
+  {
+    no: "03",
+    title: "AI Transformation",
+    description:
+      "Taking AI from pilot to org-wide practice — culture, enablement and the messy reality of change at scale.",
+  },
+];
+
+export type Speaker = {
+  id: string;
+  name: string;
+  role: string;
+  company: string;
+  topic: string;
+  image: string | null;
+};
+
+export type AgendaItem = {
+  time: string;
+  title: string;
+  detail: string;
+};
+
+export type Edition = {
+  slug: string;
+  number: string;
+  label: string;
+  title: string;
+  shortDate: string;
+  date: string;
+  time: string;
+  venue: string;
+  venueLine: string;
+  venueMapUrl: string;
+  partner: string;
+  topics: string[];
+  agenda: AgendaItem[];
+  speakers: Speaker[];
+  gallery: string[];
+};
+
+// Editions, most recent first. The first entry is treated as the featured
+// edition rendered in full on the page.
+export const events: Edition[] = [
   {
     slug: "july-2026",
-    title: "July 2026 Edition",
-    shortTitle: "July 2026",
+    number: "01",
+    label: "Inaugural edition",
+    title: "Let's Talk About AI-Driven Development",
+    shortDate: "Jul 2026",
     date: "2 July 2026",
-    theme: "AI-Driven Development & Agentic Workflows",
+    time: "6:30 PM onwards",
     venue: "Microsoft Singapore",
-    highlight:
-      "A one-day mini-conference for engineering leaders, AI practitioners, and transformation sponsors.",
-    partners: ["Zenika Singapore", "Microsoft"],
-    registrationUrl: "https://lu.ma/whatsnext-july2026",
-    heroImage: "/event-hero.jpg",
-    description:
-      "The inaugural What's Next? edition brought Singapore leaders together to explore agentic AI workflows, AI tools for engineering productivity, and enterprise-ready AI transformation strategies.",
+    venueLine: "Frasers Tower · SG 069547",
+    venueMapUrl: "https://maps.google.com/?q=Frasers+Tower+Singapore",
+    partner: "Microsoft",
+    topics: ["Agentic AI Workflow", "AI Tools", "AI Transformation"],
     agenda: [
-      { time: "09:30", title: "Registration & networking", speaker: null },
       {
-        time: "10:00",
-        title: "Opening keynote: The next wave of AI-driven development",
-        speaker: "Zenika",
+        time: "6:30 PM",
+        title: "Registration & Networking",
+        detail: "Arrive, grab a drink, meet the room.",
       },
       {
-        time: "10:25",
-        title: "Panel: Building agentic workflows responsibly",
-        speaker: "GovTech, CACIB, Grab",
-      },
-      { time: "11:10", title: "Break" },
-      {
-        time: "11:25",
-        title: "Session: AI tools for engineering teams",
-        speaker: "Microsoft",
-      },
-      { time: "12:00", title: "Lunch & networking" },
-      {
-        time: "13:15",
-        title: "Session: AI transformation in practice",
-        speaker: "DoctorsAnywhere, Banyan Tree",
+        time: "7:00 PM",
+        title: "Welcome & Opening",
+        detail: "Zenika Singapore sets the scene for the evening.",
       },
       {
-        time: "13:55",
-        title: "Panel: AI adoption challenges and momentum",
-        speaker: "Vouch, GovTech, Zenika",
+        time: "7:15 PM",
+        title: "Panel · Agentic AI Workflows",
+        detail:
+          "Agents in the development loop — orchestration, guardrails and hand-offs.",
       },
       {
-        time: "14:30",
-        title: "Closing remarks & next steps",
-        speaker: "Zenika",
+        time: "7:50 PM",
+        title: "Panel · AI Tools in Practice",
+        detail: "The tooling stack teams keep versus drop.",
+      },
+      {
+        time: "8:25 PM",
+        title: "Closing Keynote · AI Transformation",
+        detail:
+          "From pilot to org-wide practice — culture, enablement and scale.",
+      },
+      {
+        time: "9:00 PM",
+        title: "Networking & Close",
+        detail: "Keep the conversation going.",
       },
     ],
+    // Confirmed speakers, grouped by panel.
     speakers: [
+      // Panel · Agentic AI Workflows
       {
-        name: "Speaker Name 1",
-        title: "AI Lead",
-        company: "GovTech",
-        role: "Panelist",
-        image: "/speaker-placeholder.png",
-      },
-      {
-        name: "Speaker Name 2",
-        title: "CTO",
+        id: "thidahack-tranvankeoith",
+        name: "Thidahack Tranvankeoith",
+        role: "MD, ISAP",
         company: "CACIB",
-        role: "Panelist",
-        image: "/speaker-placeholder.png",
+        topic: "Agentic AI Workflow",
+        image: "/assets/speakers/thidahack.png",
       },
       {
-        name: "Speaker Name 3",
-        title: "Engineering Lead",
+        id: "renu-yadav",
+        name: "Renu Yadav",
+        role: "Sr. Engineering Manager",
         company: "Grab",
-        role: "Panelist",
-        image: "/speaker-placeholder.png",
+        topic: "Agentic AI Workflow",
+        image: "/assets/speakers/renu.png",
       },
       {
-        name: "Speaker Name 4",
-        title: "Product Leader",
+        id: "alex-chng",
+        name: "Alex Chng",
+        role: "Tech Specialist Leader",
+        company: "GovTech",
+        topic: "Agentic AI Workflow",
+        image: "/assets/speakers/alex.png",
+      },
+      {
+        id: "jolyn-chuah",
+        name: "Jolyn Chuah",
+        role: "Senior Consultant",
+        company: "Zenika Singapore",
+        topic: "Agentic AI Workflow",
+        image: "/assets/speakers/jolyn.png",
+      },
+      // Panel · AI Tools in Practice
+      {
+        id: "arnaud-lheureux",
+        name: "Arnaud Lheureux",
+        role: "Chief Dev Advisor",
+        company: "GitHub",
+        topic: "AI Tools",
+        image: "/assets/speakers/arnaud.png",
+      },
+      {
+        id: "siddharth-goel",
+        name: "Siddharth Goel",
+        role: "Staff Software Engineer",
         company: "DoctorsAnywhere",
-        role: "Session Speaker",
-        image: "/speaker-placeholder.png",
+        topic: "AI Tools",
+        image: "/assets/speakers/siddharth.png",
       },
       {
-        name: "Speaker Name 5",
-        title: "Transformation Lead",
-        company: "Banyan Tree",
-        role: "Session Speaker",
-        image: "/speaker-placeholder.png",
+        id: "michael-cheng",
+        name: "Michael Cheng",
+        role: "Dy Director, Engineering Mgmt",
+        company: "GovTech",
+        topic: "AI Tools",
+        image: "/assets/speakers/michael.png",
       },
       {
-        name: "Speaker Name 6",
-        title: "Innovation Lead",
+        id: "vincent-gillet",
+        name: "Vincent Gillet",
+        role: "Cloud and DevOps Consultant",
+        company: "Zenika Singapore",
+        topic: "AI Tools",
+        image: "/assets/speakers/vincent.png",
+      },
+      // Closing Keynote · AI Transformation
+      {
+        id: "khang-nguyen-trieu",
+        name: "Khang Nguyen Trieu",
+        role: "Group Head, Digital & Tech",
+        company: "Banyan Group",
+        topic: "AI Transformation",
+        image: "/assets/speakers/khang.png",
+      },
+      {
+        id: "joseph-ling",
+        name: "Joseph Ling",
+        role: "Founder & CEO",
         company: "Vouch",
-        role: "Panelist",
-        image: "/speaker-placeholder.png",
+        topic: "AI Transformation",
+        image: "/assets/speakers/joseph.png",
       },
     ],
-    gallery: [
-      "/gallery-1.jpg",
-      "/gallery-2.jpg",
-      "/gallery-3.jpg",
-      "/gallery-4.jpg",
-    ],
+    gallery: [],
   },
 ];
