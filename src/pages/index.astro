@@ -1,441 +1,77 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import MicrosoftMark from '../components/MicrosoftMark.astro';
-import { site, audience, themes, events } from '../data/events';
-
-const edition = events[0];
-
-// De-duplicated, first-seen order — kept in sync with the speaker roster
-// instead of being typed out by hand.
-const speakerCompanies = [...new Set(edition.speakers.map((s) => s.company))];
-
-const navLinks = [
-  { href: '#about', label: 'About' },
-  { href: '#events', label: 'Events' },
-  { href: '#speakers', label: 'Speakers' },
-  { href: '#gallery', label: 'Gallery' },
-];
-
-// Gallery tile layout (mirrors the reference mosaic). When edition.gallery
-// has image paths they fill in order; otherwise each tile is a placeholder.
-const galleryTiles = [
-  { span: 'sm:col-span-2 sm:row-span-2', label: 'Wide photo' },
-  { span: '', label: 'Photo' },
-  { span: '', label: 'Photo' },
-  { span: '', label: 'Photo' },
-  { span: '', label: 'Photo' },
-  { span: 'sm:col-span-2', label: 'Wide photo' },
-  { span: '', label: 'Photo' },
-  { span: '', label: 'Photo' },
-];
+import { events } from '../data/events';
+const latest = events[0];
 ---
-<BaseLayout>
-  <!-- NAV -->
-  <header
-    class="sticky top-0 z-50 border-b border-white/10 backdrop-blur-md"
-    style="background:rgba(6,15,49,0.92)"
-  >
-    <nav class="mx-auto flex h-[68px] max-w-shell flex-wrap items-center justify-between gap-5 px-6">
-      <a href="#top" class="flex flex-shrink-0 items-center no-underline">
-        <img src="/assets/whats-next-logo-dark.png" alt="What's Next?" class="h-[30px] w-auto" />
-      </a>
-      <div class="flex flex-wrap items-center gap-x-[26px] gap-y-3">
-        {navLinks.map((link) => (
-          <a href={link.href} class="text-[14.5px] font-medium text-white/80 no-underline hover:text-white hover:no-underline">{link.label}</a>
-        ))}
-        <a
-          href={site.registerUrl}
-          target="_blank"
-          rel="noopener"
-          class="rounded-full bg-brand px-5 py-2.5 text-[14.5px] font-semibold text-white no-underline hover:bg-brand hover:no-underline"
-        >Register interest</a>
-      </div>
-    </nav>
-  </header>
-
-  <!-- HERO -->
-  <section id="top" class="relative overflow-hidden bg-navy text-white">
-    <div class="wn-starfield pointer-events-none absolute inset-0"></div>
-    <div
-      class="wn-beam absolute -top-[10%] -right-[8%] h-[130%] w-[70%] origin-top-right"
-      style="background:linear-gradient(135deg,rgba(53,86,201,0.38),rgba(53,86,201,0))"
-    ></div>
-    <div
-      class="wn-beam absolute -bottom-[30%] -left-[12%] h-[120%] w-[65%]"
-      style="background:linear-gradient(135deg,rgba(20,40,120,0.55),rgba(20,40,120,0))"
-    ></div>
-    <div class="relative mx-auto max-w-shell px-6" style="padding-top:clamp(40px,6vw,72px);padding-bottom:clamp(44px,6vw,76px)">
-      <div class="mb-6 inline-flex items-center gap-3 rounded-full border border-white/20 px-4 py-[7px] text-[12.5px] font-semibold uppercase tracking-[0.14em] text-white/[0.78]">
-        Mini-conference series
-        <span class="h-[5px] w-[5px] rounded-full bg-brand"></span>
-        by {site.organiser}
-      </div>
-      <img
-        src="/assets/whats-next-logo-dark.png"
-        alt="What's Next?"
-        class="mb-6 h-auto"
-        style="width:clamp(240px,38vw,460px)"
-      />
-      <h1 class="mb-[22px] max-w-[16ch] font-semibold" style="font-size:clamp(30px,4.4vw,54px)">
-        {site.tagline}
-      </h1>
-      <p class="mb-8 max-w-[56ch] text-white/[0.72]" style="font-size:clamp(16px,1.5vw,19px)">
-        {site.intro}
-      </p>
-      <div class="flex flex-wrap items-center gap-3.5">
-        <a
-          href="#july2026"
-          class="rounded-full bg-brand px-7 py-[15px] text-[16px] font-semibold text-white no-underline hover:no-underline"
-        >Explore the {edition.shortDate} edition</a>
-        <a
-          href={site.registerUrl}
-          target="_blank"
-          rel="noopener"
-          class="rounded-full border border-white/40 px-[27px] py-[14px] text-[16px] font-semibold text-white no-underline hover:no-underline"
-        >Register your interest</a>
-      </div>
-      <div class="mt-9 flex flex-wrap items-center gap-4">
-        <span class="text-[12.5px] font-semibold uppercase tracking-[0.12em] text-white/50">In partnership with</span>
-        <MicrosoftMark square={11} textClass="text-[19px]" />
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about" class="bg-paper" style="scroll-margin-top:72px">
-    <div class="mx-auto max-w-shell px-6" style="padding-top:clamp(72px,9vw,112px);padding-bottom:clamp(72px,9vw,112px)">
-      <div class="grid items-start gap-x-[clamp(32px,5vw,72px)] gap-y-8 md:grid-cols-2">
-        <div>
-          <div class="mb-[18px] text-[13px] font-semibold uppercase tracking-[0.16em] text-brand">What is What's Next?</div>
-          <h2 class="mb-6 font-semibold text-ink" style="font-size:clamp(28px,3.4vw,42px)">A room of practitioners, not a pitch deck.</h2>
-          <p class="max-w-[52ch] text-[17px] text-body">
-            What's Next? is a mini-conference series organised by {site.organiser} for the people actually shipping AI into production. Each edition brings CTOs, engineering leads and AI practitioners together for short, honest panels — no vendor theatre, just what's working, what broke, and what comes next.
-          </p>
-        </div>
-        <div class="border-l border-[#dfe2ea] pl-[clamp(20px,3vw,40px)]">
-          <div class="mb-4 text-[13px] font-semibold uppercase tracking-[0.14em] text-muted">Who it's for</div>
-          <div class="flex flex-wrap gap-2.5">
-            {audience.map((item) => (
-              <span class="rounded-full border border-[#d5d9e2] bg-white px-4 py-2 text-[14px] text-ink">{item}</span>
-            ))}
-          </div>
-          <p class="mt-[22px] text-[14.5px] text-muted">
-            Held in Singapore. Speakers to date from {speakerCompanies.slice(0, -1).join(', ')} and {speakerCompanies.at(-1)}.
-          </p>
+<BaseLayout title="What&apos;s Next?" description="A Zenika Singapore mini-conference series for AI-driven development and agentic workflows.">
+  <section class="relative overflow-hidden rounded-[2rem] border border-white/10 bg-slate-950/80 px-6 py-16 shadow-soft sm:px-10 md:px-14">
+    <div class="absolute inset-x-0 top-0 h-72 bg-gradient-to-b from-zenika-accent/15 via-transparent to-transparent blur-3xl"></div>
+    <div class="relative z-10 grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+      <div class="max-w-2xl">
+        <p class="mb-4 inline-flex rounded-full bg-zenika-accentSoft px-4 py-2 text-sm font-semibold uppercase tracking-[0.28em] text-zenika-accent">AI-Driven Development</p>
+        <h1 class="text-4xl font-semibold tracking-tight text-white sm:text-5xl">What&apos;s Next? by Zenika Singapore</h1>
+        <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-300">A static showcase for the inaugural July 2026 mini-conference, documenting speakers, agenda, and event highlights for technology leaders exploring AI transformation.</p>
+        <div class="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
+          <a class="inline-flex items-center justify-center rounded-full bg-zenika-accent px-6 py-3 text-sm font-semibold text-white transition hover:bg-red-600" href={latest.registrationUrl} rel="noopener" target="_blank" onclick="window.plausible && window.plausible('Registration CTA')">Register interest</a>
+          <a class="inline-flex items-center justify-center rounded-full border border-slate-700 bg-slate-900/80 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:border-slate-500" href="/events">View past events</a>
         </div>
       </div>
-
-      <div class="text-[13px] font-semibold uppercase tracking-[0.16em] text-muted" style="margin:clamp(56px,7vw,88px) 0 22px">The themes we dig into</div>
-      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {themes.map((theme) => (
-          <div class="rounded-[18px] border border-line bg-white p-[30px]">
-            <div class="mb-[18px] font-display text-[15px] font-bold text-brand">{theme.no}</div>
-            <h3 class="mb-2.5 text-[21px] font-semibold">{theme.title}</h3>
-            <p class="text-[15px] text-muted">{theme.description}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- EVENTS -->
-  <section id="events" class="bg-white" style="scroll-margin-top:72px">
-    <div class="mx-auto max-w-shell px-6" style="padding-top:clamp(72px,9vw,112px);padding-bottom:clamp(72px,9vw,112px)">
-      <div class="mb-4 text-[13px] font-semibold uppercase tracking-[0.16em] text-brand">Events</div>
-      <h2 class="mb-10 font-semibold" style="font-size:clamp(28px,3.4vw,42px)">Every edition, most recent first.</h2>
-
-      {site.showUpcoming && (
-        <div class="relative mb-6 grid items-center gap-6 overflow-hidden rounded-[22px] bg-navy p-[clamp(28px,4vw,44px)] text-white sm:grid-cols-2">
-          <div
-            class="wn-beam absolute -top-[40%] -right-[6%] h-[180%] w-1/2"
-            style="background:linear-gradient(135deg,rgba(53,86,201,0.35),rgba(53,86,201,0))"
-          ></div>
-          <div class="relative">
-            <span class="mb-4 inline-block rounded-full border border-brand/50 bg-brand/[0.16] px-[13px] py-1.5 text-[12px] font-semibold uppercase tracking-[0.12em] text-brand-pink">Next edition</span>
-            <h3 class="mb-2.5 font-semibold" style="font-size:clamp(22px,2.6vw,30px)">To be announced</h3>
-            <p class="max-w-[46ch] text-[15.5px] text-white/[0.72]">The series continues. Register your interest and be first to hear the theme, date and speaker line-up for the next What's Next?.</p>
-          </div>
-          <div class="relative justify-self-start sm:justify-self-end">
-            <a href={site.registerUrl} target="_blank" rel="noopener" class="inline-block rounded-full bg-brand px-[26px] py-3.5 text-[15.5px] font-semibold text-white no-underline hover:no-underline">Join the list</a>
-          </div>
+      <div class="rounded-[2rem] border border-white/10 bg-slate-900/80 p-8 shadow-soft">
+        <p class="text-sm uppercase tracking-[0.25em] text-slate-400">Latest edition</p>
+        <h2 class="mt-4 text-2xl font-semibold text-white">{latest.title}</h2>
+        <p class="mt-3 text-slate-300">{latest.theme}</p>
+        <div class="mt-6 space-y-3 text-sm text-slate-300">
+          <p><strong>Date:</strong> {latest.date}</p>
+          <p><strong>Venue:</strong> {latest.venue}</p>
+          <p><strong>Location:</strong> Microsoft Singapore</p>
         </div>
-      )}
-
-      <div class="mb-[18px] mt-9 text-[12.5px] font-semibold uppercase tracking-[0.14em] text-muted">Past editions</div>
-      <a
-        href="#july2026"
-        class="group grid items-center gap-[clamp(20px,3vw,36px)] rounded-[20px] border border-line bg-white p-[clamp(22px,3vw,32px)] text-inherit no-underline transition-colors hover:border-ink hover:no-underline"
-        style="grid-template-columns:auto 1fr auto"
-      >
-        <div class="min-w-[96px] rounded-[14px] bg-navy px-5 py-[18px] text-center text-white">
-          <div class="font-display text-[34px] font-bold leading-none">{edition.number}</div>
-          <div class="mt-1 text-[12.5px] uppercase tracking-[0.1em] text-white/70">{edition.shortDate}</div>
-        </div>
-        <div class="min-w-0">
-          <div class="mb-2 text-[12.5px] font-semibold uppercase tracking-[0.12em] text-brand">{edition.label}</div>
-          <h3 class="mb-2 font-semibold text-ink" style="font-size:clamp(19px,2.2vw,25px)">{edition.title}</h3>
-          <p class="text-[14.5px] text-muted">{edition.venue}, {edition.venueLine.split(' · ')[0]} · In partnership with {edition.partner}</p>
-        </div>
-        <div class="whitespace-nowrap text-[15px] font-semibold text-brand">View edition →</div>
-      </a>
-    </div>
-  </section>
-
-  <!-- JULY 2026 — EDITION HEADER -->
-  <section id="july2026" class="relative overflow-hidden bg-navy text-white" style="scroll-margin-top:68px">
-    <div
-      class="wn-beam absolute -top-[10%] -left-[8%] h-[130%] w-[60%]"
-      style="background:linear-gradient(135deg,rgba(53,86,201,0.3),rgba(53,86,201,0))"
-    ></div>
-    <div class="relative mx-auto max-w-shell px-6" style="padding-top:clamp(64px,8vw,104px);padding-bottom:clamp(64px,8vw,104px)">
-      <div class="grid items-center gap-x-[clamp(32px,5vw,64px)] gap-y-10 lg:grid-cols-[1.45fr_0.55fr]">
-        <div>
-          <div class="mb-[18px] text-[13px] font-semibold uppercase tracking-[0.16em] text-brand-pink">{edition.date.split(' ').slice(1).join(' ')} Edition · Inaugural</div>
-          <h2 class="mb-5 max-w-[18ch] font-semibold" style="font-size:clamp(30px,4.4vw,56px)">{edition.title}</h2>
-          <div class="mb-12 flex flex-wrap gap-3">
-            {edition.topics.map((topic) => (
-              <span class="rounded-full border border-white/20 px-[15px] py-[7px] text-[13.5px] text-white/85">{topic}</span>
-            ))}
-          </div>
-          <div class="grid gap-7 border-t border-white/[0.14] pt-9 sm:grid-cols-2 lg:grid-cols-4">
-            <div>
-              <div class="mb-2 text-[12px] font-semibold uppercase tracking-[0.14em] text-brand-pink">Date</div>
-              <div class="text-[18px] font-medium">{edition.date}</div>
-            </div>
-            <div>
-              <div class="mb-2 text-[12px] font-semibold uppercase tracking-[0.14em] text-brand-pink">Time</div>
-              <div class="text-[18px] font-medium">{edition.time}</div>
-            </div>
-            <div>
-              <div class="mb-2 text-[12px] font-semibold uppercase tracking-[0.14em] text-brand-pink">Venue</div>
-              <div class="text-[18px] font-medium">{edition.venue}</div>
-              <div class="mt-0.5 text-[14.5px] text-white/[0.65]">
-                {edition.venueLine} · <a href={edition.venueMapUrl} target="_blank" rel="noopener" class="text-brand-pink">Map</a>
-              </div>
-            </div>
-            <div>
-              <div class="mb-2 text-[12px] font-semibold uppercase tracking-[0.14em] text-brand-pink">Partner</div>
-              <MicrosoftMark square={10} textClass="text-[18px]" />
-            </div>
-          </div>
-        </div>
-        <div class="w-full">
-          <div class="overflow-hidden rounded-[18px] border border-white/10 bg-white/[0.04] shadow-soft">
-            <img
-              src="/assets/event-poster.png"
-              alt={`${edition.title} — ${edition.date} event poster`}
-              class="aspect-[3/4] w-full object-cover"
-              loading="lazy"
-            />
-          </div>
+        <div class="mt-8 flex flex-wrap gap-2">
+          {latest.partners.map((partner) => (
+            <span class="rounded-full border border-slate-700 bg-slate-800/80 px-4 py-2 text-xs uppercase tracking-[0.2em] text-slate-300">{partner}</span>
+          ))}
         </div>
       </div>
     </div>
   </section>
 
-  <!-- AGENDA -->
-  <section id="agenda" class="bg-paper" style="scroll-margin-top:72px">
-    <div class="mx-auto max-w-shell px-6" style="padding-top:clamp(64px,8vw,100px);padding-bottom:clamp(64px,8vw,100px)">
-      <div class="mb-4 text-[13px] font-semibold uppercase tracking-[0.16em] text-brand">Programme</div>
-      <h2 class="mb-3 font-semibold" style="font-size:clamp(26px,3.2vw,38px)">The evening, in order.</h2>
-      <p class="mb-11 text-[15px] text-muted">Doors from {edition.agenda[0].time}. Three practitioner panels, bookended by networking.</p>
-      <div class="max-w-[820px]">
-        {edition.agenda.map((item, i) => (
-          <div
-            class:list={[
-              'grid gap-x-[clamp(16px,3vw,36px)] gap-y-2 border-t border-[#e0e3ea] py-[22px] [grid-template-columns:120px_1fr]',
-              i === edition.agenda.length - 1 && 'border-b',
-            ]}
-          >
-            <div class="font-display text-[19px] font-semibold text-brand">{item.time}</div>
-            <div>
-              <h3 class="mb-1 text-[18px] font-semibold">{item.title}</h3>
-              <p class="text-[14.5px] text-muted">{item.detail}</p>
-            </div>
-          </div>
-        ))}
+  <section class="mt-14 grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+    <article class="rounded-[2rem] border border-white/10 bg-slate-950/80 p-8 shadow-soft">
+      <h2 class="text-2xl font-semibold text-white">Why What&apos;s Next?</h2>
+      <p class="mt-4 text-slate-300 leading-8">What&apos;s Next? is a recurring event series focused on AI-driven development, agentic AI workflows, and enterprise transformation. It is designed for senior engineering leaders, AI practitioners, and decision-makers evaluating how AI changes software delivery and operations.</p>
+      <div class="mt-8 grid gap-4 sm:grid-cols-2">
+        <div class="rounded-3xl bg-slate-900/80 p-5">
+          <h3 class="text-sm font-semibold uppercase tracking-[0.24em] text-zenika-accent">Audience</h3>
+          <p class="mt-3 text-slate-300">CTOs, engineering leads, AI teams, and transformation sponsors.</p>
+        </div>
+        <div class="rounded-3xl bg-slate-900/80 p-5">
+          <h3 class="text-sm font-semibold uppercase tracking-[0.24em] text-zenika-accent">Topics</h3>
+          <p class="mt-3 text-slate-300">Agentic workflows, AI tools, productivity, and real-world transformation.</p>
+        </div>
       </div>
-    </div>
+    </article>
+    <aside class="rounded-[2rem] border border-white/10 bg-slate-950/80 p-8 shadow-soft">
+      <h2 class="text-2xl font-semibold text-white">Featured partners</h2>
+      <p class="mt-4 text-slate-300 leading-7">The inaugural edition was delivered in partnership with Microsoft Singapore and supported by Zenika Singapore&apos;s local AI practice.</p>
+      <div class="mt-8 grid gap-4 sm:grid-cols-2">
+        <div class="rounded-3xl border border-slate-800 bg-slate-900/80 p-5 text-center">
+          <p class="text-sm uppercase tracking-[0.24em] text-slate-400">Lead partner</p>
+          <p class="mt-3 text-xl font-semibold text-white">Microsoft</p>
+        </div>
+        <div class="rounded-3xl border border-slate-800 bg-slate-900/80 p-5 text-center">
+          <p class="text-sm uppercase tracking-[0.24em] text-slate-400">Host</p>
+          <p class="mt-3 text-xl font-semibold text-white">Zenika Singapore</p>
+        </div>
+      </div>
+    </aside>
   </section>
 
-  <!-- SPEAKERS -->
-  <section id="speakers" class="bg-white" style="scroll-margin-top:72px">
-    <div class="mx-auto max-w-shell px-6" style="padding-top:clamp(64px,8vw,100px);padding-bottom:clamp(64px,8vw,100px)">
-      <div class="mb-4 text-[13px] font-semibold uppercase tracking-[0.16em] text-brand">Speakers · {edition.date.split(' ').slice(1).join(' ')}</div>
-      <h2 class="mb-3 font-semibold" style="font-size:clamp(26px,3.2vw,38px)">Practitioners from across the industry.</h2>
-      <p class="mb-11 max-w-[60ch] text-[15px] text-muted">Speakers joined from the organisations below. Names and headshots are added as they're confirmed.</p>
-      <div class="grid gap-[22px] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {edition.speakers.map((speaker) => (
-          <div class="rounded-[18px] border border-line bg-white p-[22px]">
-            <div class="mb-[18px] flex h-[84px] w-[84px] items-center justify-center overflow-hidden rounded-full bg-paper text-[11px] text-muted">
-              {speaker.image
-                ? <img src={speaker.image} alt={speaker.name} class="h-full w-full object-cover" />
-                : <span>Headshot</span>}
-            </div>
-            <div class="text-[17px] font-semibold text-ink">{speaker.name}</div>
-            <div class="mb-3 text-[14px] text-muted">{speaker.role} · {speaker.company}</div>
-            <span class="inline-block rounded-full bg-brand-soft px-[11px] py-[5px] text-[11.5px] font-semibold uppercase tracking-[0.08em] text-brand">{speaker.topic}</span>
-          </div>
-        ))}
+  <section class="mt-14 rounded-[2rem] border border-white/10 bg-slate-950/80 p-8 shadow-soft">
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+      <div>
+        <h2 class="text-2xl font-semibold text-white">Explore the archive</h2>
+        <p class="mt-3 text-slate-300">Start with the inaugural edition and add future events as the series grows.</p>
       </div>
+      <a href="/events" class="inline-flex items-center justify-center rounded-full bg-slate-800 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-700">See all event editions</a>
     </div>
   </section>
-
-  <!-- GALLERY -->
-  <section id="gallery" class="bg-paper" style="scroll-margin-top:72px">
-    <div class="mx-auto max-w-shell px-6" style="padding-top:clamp(64px,8vw,100px);padding-bottom:clamp(64px,8vw,100px)">
-      <div class="mb-4 text-[13px] font-semibold uppercase tracking-[0.16em] text-brand">Gallery · {edition.date.split(' ').slice(1).join(' ')}</div>
-      <h2 class="mb-3 font-semibold" style="font-size:clamp(26px,3.2vw,38px)">From the night.</h2>
-      <p class="mb-9 text-[15px] text-muted">Event photos are added after each edition.</p>
-      <div class="grid auto-rows-[200px] grid-cols-2 gap-3.5 sm:grid-cols-3 lg:grid-cols-4">
-        {galleryTiles.map((tile, i) => (
-          <div class:list={['overflow-hidden rounded-2xl', tile.span]}>
-            {edition.gallery[i]
-              ? (
-                <button
-                  type="button"
-                  data-gallery-open
-                  data-index={i}
-                  aria-label={`Open photo ${i + 1} of ${edition.gallery.length}`}
-                  class="group block h-full w-full cursor-zoom-in overflow-hidden border-0 p-0"
-                >
-                  <img
-                    src={edition.gallery[i]}
-                    alt={`Event photo ${i + 1}`}
-                    class="h-full w-full object-cover transition duration-200 group-hover:scale-[1.03]"
-                    loading="lazy"
-                  />
-                </button>
-              )
-              : <div class="flex h-full w-full items-center justify-center border border-line bg-white text-[12px] text-muted">{tile.label}</div>}
-          </div>
-        ))}
-      </div>
-
-      {edition.gallery.length > 0 && (
-        <div class="mt-8 flex justify-center">
-          <button
-            type="button"
-            data-gallery-open
-            data-index="0"
-            class="rounded-full border border-line bg-white px-6 py-3 text-[14.5px] font-semibold text-ink hover:border-ink"
-          >
-            {edition.gallery.length > galleryTiles.length
-              ? `See all ${edition.gallery.length} photos`
-              : 'View gallery'}
-          </button>
-        </div>
-      )}
-    </div>
-
-    <!-- Full-screen photo lightbox / carousel -->
-    <dialog
-      id="gallery-lightbox"
-      class="max-h-[90vh] max-w-[92vw] rounded-2xl border-0 bg-transparent p-0 [&::backdrop]:bg-navy/90"
-    >
-      <div class="relative flex max-h-[90vh] max-w-[92vw] items-center justify-center">
-        <button
-          type="button"
-          data-gallery-close
-          aria-label="Close gallery"
-          class="absolute -top-4 -right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white text-[18px] font-semibold text-ink shadow-soft hover:bg-paper sm:-top-5 sm:-right-5"
-        >✕</button>
-        <button
-          type="button"
-          data-gallery-prev
-          aria-label="Previous photo"
-          class="absolute left-2 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/90 text-[22px] font-semibold text-ink shadow-soft hover:bg-white sm:left-4"
-        >‹</button>
-        <img id="gallery-lightbox-img" src="" alt="" class="max-h-[85vh] max-w-full rounded-xl object-contain" />
-        <button
-          type="button"
-          data-gallery-next
-          aria-label="Next photo"
-          class="absolute right-2 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/90 text-[22px] font-semibold text-ink shadow-soft hover:bg-white sm:right-4"
-        >›</button>
-        <p id="gallery-lightbox-counter" class="absolute -bottom-8 left-1/2 -translate-x-1/2 text-[13px] font-medium text-white/80"></p>
-      </div>
-    </dialog>
-  </section>
-
-  <script is:inline define:vars={{ galleryImages: edition.gallery }}>
-    const dialog = document.getElementById('gallery-lightbox');
-    const imgEl = document.getElementById('gallery-lightbox-img');
-    const counterEl = document.getElementById('gallery-lightbox-counter');
-    let currentIndex = 0;
-
-    function render() {
-      if (!galleryImages.length) return;
-      imgEl.src = galleryImages[currentIndex];
-      imgEl.alt = `Event photo ${currentIndex + 1}`;
-      counterEl.textContent = `${currentIndex + 1} / ${galleryImages.length}`;
-    }
-
-    function openAt(index) {
-      if (!galleryImages.length) return;
-      currentIndex = ((index % galleryImages.length) + galleryImages.length) % galleryImages.length;
-      render();
-      if (!dialog.open) dialog.showModal();
-    }
-
-    function next() { openAt(currentIndex + 1); }
-    function prev() { openAt(currentIndex - 1); }
-
-    document.querySelectorAll('[data-gallery-open]').forEach((btn) => {
-      btn.addEventListener('click', () => openAt(Number(btn.dataset.index || 0)));
-    });
-    dialog.querySelector('[data-gallery-close]').addEventListener('click', () => dialog.close());
-    dialog.querySelector('[data-gallery-next]').addEventListener('click', next);
-    dialog.querySelector('[data-gallery-prev]').addEventListener('click', prev);
-
-    // Click on the backdrop area (outside the image/controls) closes the dialog.
-    dialog.addEventListener('click', (event) => {
-      if (event.target === dialog) dialog.close();
-    });
-
-    dialog.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowRight') next();
-      if (event.key === 'ArrowLeft') prev();
-    });
-  </script>
-
-  <!-- FOOTER -->
-  <footer class="bg-navy text-white">
-    <div class="mx-auto max-w-shell px-6" style="padding:clamp(56px,7vw,84px) 24px 40px">
-      <div class="grid items-start gap-10 sm:grid-cols-2 lg:grid-cols-4">
-        <div>
-          <img src="/assets/whats-next-logo-dark.png" alt="What's Next?" class="mb-5 h-[38px] w-auto" />
-          <p class="max-w-[34ch] text-[14.5px] text-white/[0.66]">A mini-conference series on AI-Driven Development, organised by {site.organiser}.</p>
-        </div>
-        <div>
-          <div class="mb-4 text-[12px] font-semibold uppercase tracking-[0.14em] text-white/50">Explore</div>
-          <div class="flex flex-col gap-[11px]">
-            {navLinks.map((link) => (
-              <a href={link.href} class="text-[14.5px] text-white/80 no-underline hover:no-underline">{link.label}</a>
-            ))}
-          </div>
-        </div>
-        <div>
-          <div class="mb-4 text-[12px] font-semibold uppercase tracking-[0.14em] text-white/50">Get involved</div>
-          <div class="flex flex-col gap-[11px]">
-            <a href={site.registerUrl} target="_blank" rel="noopener" class="text-[14.5px] text-white/80 no-underline hover:no-underline">Register your interest</a>
-            <a href={site.registerUrl} target="_blank" rel="noopener" class="text-[14.5px] text-white/80 no-underline hover:no-underline">Speak at a future edition</a>
-          </div>
-        </div>
-        <div>
-          <div class="mb-4 text-[12px] font-semibold uppercase tracking-[0.14em] text-white/50">Organised by</div>
-          <div class="mb-1.5 font-display text-[24px] font-bold tracking-[-0.02em]">zenika<span class="text-brand">.</span></div>
-          <p class="text-[14px] text-white/60">{site.organiser}</p>
-          <div class="mt-[18px] flex items-center gap-2">
-            <span class="text-[12.5px] text-white/50">In partnership with</span>
-            <MicrosoftMark square={9} textClass="text-[14px]" colorClass="text-white/85" />
-          </div>
-        </div>
-      </div>
-      <div class="mt-12 flex flex-wrap justify-between gap-4 border-t border-white/[0.12] pt-6">
-        <span class="text-[13px] text-white/50">© 2026 {site.organiser}. What's Next?</span>
-        <span class="text-[13px] text-white/50">Singapore</span>
-      </div>
-    </div>
-  </footer>
 </BaseLayout>
