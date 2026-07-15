@@ -8,9 +8,11 @@ export const site = {
   intro:
     "A recurring evening of candid, practitioner-led conversation on AI-Driven Development: the workflows, tools and transformation reshaping how software gets built.",
   registerUrl: "https://lu.ma/whatsnext",
+  // Set false to hide the "Next edition — to be announced" card.
   showUpcoming: true,
 };
 
+// Audience the series is built for.
 export const audience = [
   "CTOs & senior leadership",
   "Engineering leads",
@@ -18,6 +20,7 @@ export const audience = [
   "Product & platform teams",
 ];
 
+// The recurring themes, shown as numbered cards in the About section.
 export const themes = [
   {
     no: "01",
@@ -72,6 +75,8 @@ export type Edition = {
   gallery: string[];
 };
 
+// Editions, most recent first. The first entry is treated as the featured
+// edition rendered in full on the page.
 export const events: Edition[] = [
   {
     slug: "july-2026",
@@ -120,7 +125,9 @@ export const events: Edition[] = [
         detail: "Keep the conversation going.",
       },
     ],
+    // Confirmed speakers, grouped by panel.
     speakers: [
+      // Panel · Agentic AI Workflows
       {
         id: "thidahack-tranvankeoith",
         name: "Thidahack Tranvankeoith",
@@ -153,6 +160,7 @@ export const events: Edition[] = [
         topic: "Agentic AI Workflow",
         image: "/assets/speakers/jolyn.png",
       },
+      // Panel · AI Tools in Practice
       {
         id: "arnaud-lheureux",
         name: "Arnaud Lheureux",
@@ -185,6 +193,7 @@ export const events: Edition[] = [
         topic: "AI Tools",
         image: "/assets/speakers/vincent.png",
       },
+      // Closing Keynote · AI Transformation
       {
         id: "khang-nguyen-trieu",
         name: "Khang Nguyen Trieu",

@@ -1,11 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import MicrosoftMark from '../components/MicrosoftMark.astro';
-import { withBase } from '../lib/site';
 import { site, audience, themes, events } from '../data/events';
 
 const edition = events[0];
 
+// De-duplicated, first-seen order — kept in sync with the speaker roster
+// instead of being typed out by hand.
 const speakerCompanies = [...new Set(edition.speakers.map((s) => s.company))];
 
 const navLinks = [
@@ -15,6 +16,8 @@ const navLinks = [
   { href: '#gallery', label: 'Gallery' },
 ];
 
+// Gallery tile layout (mirrors the reference mosaic). When edition.gallery
+// has image paths they fill in order; otherwise each tile is a placeholder.
 const galleryTiles = [
   { span: 'sm:col-span-2 sm:row-span-2', label: 'Wide photo' },
   { span: '', label: 'Photo' },
@@ -25,17 +28,16 @@ const galleryTiles = [
   { span: '', label: 'Photo' },
   { span: '', label: 'Photo' },
 ];
-
-const galleryImages = edition.gallery.map(withBase);
 ---
 <BaseLayout>
+  <!-- NAV -->
   <header
     class="sticky top-0 z-50 border-b border-white/10 backdrop-blur-md"
     style="background:rgba(6,15,49,0.92)"
   >
     <nav class="mx-auto flex h-[68px] max-w-shell flex-wrap items-center justify-between gap-5 px-6">
       <a href="#top" class="flex flex-shrink-0 items-center no-underline">
-        <img src={withBase('assets/whats-next-logo-dark.png')} alt="What's Next?" class="h-[30px] w-auto" />
+        <img src="/assets/whats-next-logo-dark.png" alt="What's Next?" class="h-[30px] w-auto" />
       </a>
       <div class="flex flex-wrap items-center gap-x-[26px] gap-y-3">
         {navLinks.map((link) => (
@@ -69,7 +71,7 @@ const galleryImages = edition.gallery.map(withBase);
         by {site.organiser}
       </div>
       <img
-        src={withBase('assets/whats-next-logo-dark.png')}
+        src="/assets/whats-next-logo-dark.png"
         alt="What's Next?"
         class="mb-6 h-auto"
         style="width:clamp(240px,38vw,460px)"
@@ -220,7 +222,7 @@ const galleryImages = edition.gallery.map(withBase);
         <div class="w-full">
           <div class="overflow-hidden rounded-[18px] border border-white/10 bg-white/[0.04] shadow-soft">
             <img
-              src={withBase('assets/event-poster.png')}
+              src="/assets/event-poster.png"
               alt={`${edition.title} — ${edition.date} event poster`}
               class="aspect-[3/4] w-full object-cover"
               loading="lazy"
@@ -267,7 +269,7 @@ const galleryImages = edition.gallery.map(withBase);
           <div class="rounded-[18px] border border-line bg-white p-[22px]">
             <div class="mb-[18px] flex h-[84px] w-[84px] items-center justify-center overflow-hidden rounded-full bg-paper text-[11px] text-muted">
               {speaker.image
-                ? <img src={withBase(speaker.image)} alt={speaker.name} class="h-full w-full object-cover" />
+                ? <img src={speaker.image} alt={speaker.name} class="h-full w-full object-cover" />
                 : <span>Headshot</span>}
             </div>
             <div class="text-[17px] font-semibold text-ink">{speaker.name}</div>
@@ -298,7 +300,7 @@ const galleryImages = edition.gallery.map(withBase);
                   class="group block h-full w-full cursor-zoom-in overflow-hidden border-0 p-0"
                 >
                   <img
-                    src={galleryImages[i]}
+                    src={edition.gallery[i]}
                     alt={`Event photo ${i + 1}`}
                     class="h-full w-full object-cover transition duration-200 group-hover:scale-[1.03]"
                     loading="lazy"
@@ -356,7 +358,7 @@ const galleryImages = edition.gallery.map(withBase);
     </dialog>
   </section>
 
-  <script is:inline define:vars={{ galleryImages }}>
+  <script is:inline define:vars={{ galleryImages: edition.gallery }}>
     const dialog = document.getElementById('gallery-lightbox');
     const imgEl = document.getElementById('gallery-lightbox-img');
     const counterEl = document.getElementById('gallery-lightbox-counter');
@@ -386,6 +388,7 @@ const galleryImages = edition.gallery.map(withBase);
     dialog.querySelector('[data-gallery-next]').addEventListener('click', next);
     dialog.querySelector('[data-gallery-prev]').addEventListener('click', prev);
 
+    // Click on the backdrop area (outside the image/controls) closes the dialog.
     dialog.addEventListener('click', (event) => {
       if (event.target === dialog) dialog.close();
     });
@@ -401,7 +404,7 @@ const galleryImages = edition.gallery.map(withBase);
     <div class="mx-auto max-w-shell px-6" style="padding:clamp(56px,7vw,84px) 24px 40px">
       <div class="grid items-start gap-10 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <img src={withBase('assets/whats-next-logo-dark.png')} alt="What's Next?" class="mb-5 h-[38px] w-auto" />
+          <img src="/assets/whats-next-logo-dark.png" alt="What's Next?" class="mb-5 h-[38px] w-auto" />
           <p class="max-w-[34ch] text-[14.5px] text-white/[0.66]">A mini-conference series on AI-Driven Development, organised by {site.organiser}.</p>
         </div>
         <div>

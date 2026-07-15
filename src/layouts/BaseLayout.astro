@@ -1,14 +1,14 @@
 ---
 import '../styles/global.css';
-import { withBase } from '../lib/site';
 const { title, description, image, url } = Astro.props;
 const siteTitle = "What's Next? — A mini-conference series by Zenika Singapore";
 const siteDescription =
   "What's Next? is a recurring mini-conference on AI-Driven Development, organised by Zenika Singapore. Explore past editions, speakers and topics.";
+const siteUrl = 'https://whatsnext.zenika.sg';
 const pageTitle = title ? `${title} · What's Next?` : siteTitle;
 const pageDescription = description ?? siteDescription;
-const pageUrl = url ?? new URL(withBase(''), Astro.site).href;
-const pageImage = image ?? new URL(withBase('og-image.png'), Astro.site).href;
+const pageUrl = url ?? siteUrl;
+const pageImage = image ?? `${siteUrl}/og-image.png`;
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +26,7 @@ const pageImage = image ?? new URL(withBase('og-image.png'), Astro.site).href;
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={pageDescription} />
     <meta name="twitter:image" content={pageImage} />
-    <link rel="icon" type="image/png" href={withBase('favicon-zenika.png')} />
+    <link rel="icon" type="image/png" href="/favicon-zenika.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
