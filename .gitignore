@@ -29,9 +29,6 @@ Thumbs.db
 .AppleDouble
 .LSOverride
 
-# Generated npm files
-package-lock.json
-
 # Ignore local IDE and system files
 *~
 *.swp
