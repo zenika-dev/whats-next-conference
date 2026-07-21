@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://zenika-dev.github.io/whats-next-conference/sitemap.xml
+Sitemap: https://whats-next.zenika.sg/sitemap.xml
