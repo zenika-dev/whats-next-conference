@@ -41,12 +41,20 @@ const galleryImages = edition.gallery.map(withBase);
         {navLinks.map((link) => (
           <a href={link.href} class="text-[14.5px] font-medium text-white/80 no-underline hover:text-white hover:no-underline">{link.label}</a>
         ))}
-        <a
-          href={site.registerUrl}
-          target="_blank"
-          rel="noopener"
-          class="rounded-full bg-brand px-5 py-2.5 text-[14.5px] font-semibold text-white no-underline hover:bg-brand hover:no-underline"
-        >Register interest</a>
+        {site.registrationOpen ? (
+          <a
+            href={site.registerUrl}
+            target="_blank"
+            rel="noopener"
+            class="rounded-full bg-brand px-5 py-2.5 text-[14.5px] font-semibold text-white no-underline hover:bg-brand hover:no-underline"
+          >Register interest</a>
+        ) : (
+          <span
+            aria-disabled="true"
+            title="Registration is currently closed"
+            class="cursor-not-allowed rounded-full bg-slate-200 px-5 py-2.5 text-[14.5px] font-semibold text-slate-400"
+          >Register interest</span>
+        )}
       </div>
     </nav>
   </header>
@@ -85,12 +93,20 @@ const galleryImages = edition.gallery.map(withBase);
           href="#july2026"
           class="rounded-full bg-brand px-7 py-[15px] text-[16px] font-semibold text-white no-underline hover:no-underline"
         >Explore the {edition.shortDate} edition</a>
-        <a
-          href={site.registerUrl}
-          target="_blank"
-          rel="noopener"
-          class="rounded-full border border-white/40 px-[27px] py-[14px] text-[16px] font-semibold text-white no-underline hover:no-underline"
-        >Register your interest</a>
+        {site.registrationOpen ? (
+          <a
+            href={site.registerUrl}
+            target="_blank"
+            rel="noopener"
+            class="rounded-full border border-white/40 px-[27px] py-[14px] text-[16px] font-semibold text-white no-underline hover:no-underline"
+          >Register your interest</a>
+        ) : (
+          <span
+            aria-disabled="true"
+            title="Registration is currently closed"
+            class="cursor-not-allowed rounded-full border border-white/15 px-[27px] py-[14px] text-[16px] font-semibold text-white/35"
+          >Register your interest</span>
+        )}
       </div>
       <div class="mt-9 flex flex-wrap items-center gap-4">
         <span class="text-[12.5px] font-semibold uppercase tracking-[0.12em] text-white/50">In partnership with</span>
@@ -154,7 +170,15 @@ const galleryImages = edition.gallery.map(withBase);
             <p class="max-w-[46ch] text-[15.5px] text-white/[0.72]">The series continues. Register your interest and be first to hear the theme, date and speaker line-up for the next What's Next?.</p>
           </div>
           <div class="relative justify-self-start sm:justify-self-end">
-            <a href={site.registerUrl} target="_blank" rel="noopener" class="inline-block rounded-full bg-brand px-[26px] py-3.5 text-[15.5px] font-semibold text-white no-underline hover:no-underline">Join the list</a>
+            {site.registrationOpen ? (
+              <a href={site.registerUrl} target="_blank" rel="noopener" class="inline-block rounded-full bg-brand px-[26px] py-3.5 text-[15.5px] font-semibold text-white no-underline hover:no-underline">Join the list</a>
+            ) : (
+              <span
+                aria-disabled="true"
+                title="Registration is currently closed"
+                class="inline-block cursor-not-allowed rounded-full bg-white/10 px-[26px] py-3.5 text-[15.5px] font-semibold text-white/35"
+              >Join the list</span>
+            )}
           </div>
         </div>
       )}
@@ -424,8 +448,17 @@ const galleryImages = edition.gallery.map(withBase);
         <div>
           <div class="mb-4 text-[12px] font-semibold uppercase tracking-[0.14em] text-white/50">Get involved</div>
           <div class="flex flex-col gap-[11px]">
-            <a href={site.registerUrl} target="_blank" rel="noopener" class="text-[14.5px] text-white/80 no-underline hover:no-underline">Register your interest</a>
-            <a href={site.registerUrl} target="_blank" rel="noopener" class="text-[14.5px] text-white/80 no-underline hover:no-underline">Speak at a future edition</a>
+            {site.registrationOpen ? (
+              <>
+                <a href={site.registerUrl} target="_blank" rel="noopener" class="text-[14.5px] text-white/80 no-underline hover:no-underline">Register your interest</a>
+                <a href={site.registerUrl} target="_blank" rel="noopener" class="text-[14.5px] text-white/80 no-underline hover:no-underline">Speak at a future edition</a>
+              </>
+            ) : (
+              <>
+                <span aria-disabled="true" title="Registration is currently closed" class="cursor-not-allowed text-[14.5px] text-white/30">Register your interest</span>
+                <span aria-disabled="true" title="Registration is currently closed" class="cursor-not-allowed text-[14.5px] text-white/30">Speak at a future edition</span>
+              </>
+            )}
           </div>
         </div>
         <div>
