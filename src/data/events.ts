@@ -9,6 +9,8 @@ export const site = {
     "A recurring evening of candid, practitioner-led conversation on AI-Driven Development: the workflows, tools and transformation reshaping how software gets built.",
   registerUrl: "https://lu.ma/whatsnext",
   showUpcoming: true,
+  // Set true to re-enable the registration CTAs across the page.
+  registrationOpen: false,
 };
 
 export const audience = [
