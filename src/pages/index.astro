@@ -33,11 +33,11 @@ const galleryImages = edition.gallery.map(withBase);
     class="sticky top-0 z-50 border-b border-white/10 backdrop-blur-md"
     style="background:rgba(6,15,49,0.92)"
   >
-    <nav class="mx-auto flex h-[68px] max-w-shell flex-wrap items-center justify-between gap-5 px-6">
+    <nav class="mx-auto flex h-[68px] max-w-shell items-center justify-between gap-5 px-6">
       <a href="#top" class="flex flex-shrink-0 items-center no-underline">
         <img src={withBase('assets/whats-next-logo-dark.png')} alt="What's Next?" class="h-[30px] w-auto" />
       </a>
-      <div class="flex flex-wrap items-center gap-x-[26px] gap-y-3">
+      <div class="hidden items-center gap-x-[26px] md:flex">
         {navLinks.map((link) => (
           <a href={link.href} class="text-[14.5px] font-medium text-white/80 no-underline hover:text-white hover:no-underline">{link.label}</a>
         ))}
@@ -56,8 +56,64 @@ const galleryImages = edition.gallery.map(withBase);
           >Register interest</span>
         )}
       </div>
+      <button
+        type="button"
+        id="nav-toggle"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Toggle menu"
+        class="flex h-9 w-9 flex-shrink-0 flex-col items-center justify-center gap-[5px] md:hidden"
+      >
+        <span class="h-[2px] w-5 rounded-full bg-white transition-transform"></span>
+        <span class="h-[2px] w-5 rounded-full bg-white transition-opacity"></span>
+        <span class="h-[2px] w-5 rounded-full bg-white transition-transform"></span>
+      </button>
     </nav>
+    <div id="mobile-menu" class="hidden flex-col gap-1 border-t border-white/10 px-6 py-4 md:hidden" style="background:rgba(6,15,49,0.98)">
+      {navLinks.map((link) => (
+        <a href={link.href} class="rounded-lg px-2 py-2.5 text-[15px] font-medium text-white/80 no-underline hover:bg-white/5 hover:text-white hover:no-underline">{link.label}</a>
+      ))}
+      {site.registrationOpen ? (
+        <a
+          href={site.registerUrl}
+          target="_blank"
+          rel="noopener"
+          class="mt-2 rounded-full bg-brand px-5 py-2.5 text-center text-[14.5px] font-semibold text-white no-underline hover:no-underline"
+        >Register interest</a>
+      ) : (
+        <span
+          aria-disabled="true"
+          title="Registration is currently closed"
+          class="mt-2 cursor-not-allowed rounded-full bg-slate-200 px-5 py-2.5 text-center text-[14.5px] font-semibold text-slate-400"
+        >Register interest</span>
+      )}
+    </div>
   </header>
+
+  <script is:inline>
+    const navToggle = document.getElementById('nav-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    navToggle.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('flex');
+      mobileMenu.classList.toggle('hidden');
+      navToggle.setAttribute('aria-expanded', String(open));
+      navToggle.classList.toggle('nav-toggle-open', open);
+    });
+    mobileMenu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        mobileMenu.classList.remove('flex');
+        navToggle.setAttribute('aria-expanded', 'false');
+        navToggle.classList.remove('nav-toggle-open');
+      });
+    });
+  </script>
+
+  <style>
+    #nav-toggle.nav-toggle-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    #nav-toggle.nav-toggle-open span:nth-child(2) { opacity: 0; }
+    #nav-toggle.nav-toggle-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  </style>
 
   <!-- HERO -->
   <section id="top" class="relative overflow-hidden bg-navy text-white">
@@ -186,10 +242,9 @@ const galleryImages = edition.gallery.map(withBase);
       <div class="mb-[18px] mt-9 text-[12.5px] font-semibold uppercase tracking-[0.14em] text-muted">Past editions</div>
       <a
         href="#july2026"
-        class="group grid items-center gap-[clamp(20px,3vw,36px)] rounded-[20px] border border-line bg-white p-[clamp(22px,3vw,32px)] text-inherit no-underline transition-colors hover:border-ink hover:no-underline"
-        style="grid-template-columns:auto 1fr auto"
+        class="group grid grid-cols-1 items-center gap-[clamp(20px,3vw,36px)] rounded-[20px] border border-line bg-white p-[clamp(22px,3vw,32px)] text-inherit no-underline transition-colors hover:border-ink hover:no-underline sm:grid-cols-[auto_1fr_auto]"
       >
-        <div class="min-w-[96px] rounded-[14px] bg-navy px-5 py-[18px] text-center text-white">
+        <div class="min-w-[96px] justify-self-start rounded-[14px] bg-navy px-5 py-[18px] text-center text-white sm:justify-self-auto">
           <div class="font-display text-[34px] font-bold leading-none">{edition.number}</div>
           <div class="mt-1 text-[12.5px] uppercase tracking-[0.1em] text-white/70">{edition.shortDate}</div>
         </div>
