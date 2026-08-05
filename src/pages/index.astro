@@ -35,7 +35,7 @@ const galleryImages = edition.gallery.map(withBase);
   >
     <nav class="mx-auto flex h-[68px] max-w-shell items-center justify-between gap-5 px-6">
       <a href="#top" class="flex flex-shrink-0 items-center no-underline">
-        <img src={withBase('assets/whats-next-logo-dark.png')} alt="What's Next?" class="h-[30px] w-auto" />
+        <img src={withBase('assets/whats-next-logo-light.png')} alt="What's Next?" class="h-10 w-auto" />
       </a>
       <div class="hidden items-center gap-x-[26px] md:flex">
         {navLinks.map((link) => (
@@ -127,46 +127,54 @@ const galleryImages = edition.gallery.map(withBase);
       style="background:linear-gradient(135deg,rgba(20,40,120,0.55),rgba(20,40,120,0))"
     ></div>
     <div class="relative mx-auto max-w-shell px-6" style="padding-top:clamp(40px,6vw,72px);padding-bottom:clamp(44px,6vw,76px)">
-      <div class="mb-6 inline-flex items-center gap-3 rounded-full border border-white/20 px-4 py-[7px] text-[12.5px] font-semibold uppercase tracking-[0.14em] text-white/[0.78]">
-        Mini-conference series
-        <span class="h-[5px] w-[5px] rounded-full bg-brand"></span>
-        by {site.organiser}
-      </div>
-      <img
-        src={withBase('assets/whats-next-logo-dark.png')}
-        alt="What's Next?"
-        class="mb-6 h-auto"
-        style="width:clamp(240px,38vw,460px)"
-      />
-      <h1 class="mb-[22px] max-w-[16ch] font-semibold" style="font-size:clamp(30px,4.4vw,54px)">
-        {site.tagline}
-      </h1>
-      <p class="mb-8 max-w-[56ch] text-white/[0.72]" style="font-size:clamp(16px,1.5vw,19px)">
-        {site.intro}
-      </p>
-      <div class="flex flex-wrap items-center gap-3.5">
-        <a
-          href="#july2026"
-          class="rounded-full bg-brand px-7 py-[15px] text-[16px] font-semibold text-white no-underline hover:no-underline"
-        >Explore the {edition.shortDate} edition</a>
-        {site.registrationOpen ? (
-          <a
-            href={site.registerUrl}
-            target="_blank"
-            rel="noopener"
-            class="rounded-full border border-white/40 px-[27px] py-[14px] text-[16px] font-semibold text-white no-underline hover:no-underline"
-          >Register your interest</a>
-        ) : (
-          <span
-            aria-disabled="true"
-            title="Registration is currently closed"
-            class="cursor-not-allowed rounded-full border border-white/15 px-[27px] py-[14px] text-[16px] font-semibold text-white/35"
-          >Register your interest</span>
-        )}
-      </div>
-      <div class="mt-9 flex flex-wrap items-center gap-4">
-        <span class="text-[12.5px] font-semibold uppercase tracking-[0.12em] text-white/50">In partnership with</span>
-        <MicrosoftMark square={11} textClass="text-[19px]" />
+      <div class="grid items-center gap-x-[clamp(32px,5vw,64px)] gap-y-10 lg:grid-cols-[1fr_1fr]">
+        <div>
+          <div class="mb-6 inline-flex items-center gap-3 rounded-full border border-white/20 px-4 py-[7px] text-[12.5px] font-semibold uppercase tracking-[0.14em] text-white/[0.78]">
+            Mini-conference series
+            <span class="h-[5px] w-[5px] rounded-full bg-brand"></span>
+            by {site.organiser}
+          </div>
+          <h1 class="mb-[22px] max-w-[16ch] font-semibold" style="font-size:clamp(30px,4.4vw,54px)">
+            {site.tagline}
+          </h1>
+          <p class="mb-8 max-w-[56ch] text-white/[0.72]" style="font-size:clamp(16px,1.5vw,19px)">
+            {site.intro}
+          </p>
+          <div class="flex flex-wrap items-center gap-3.5">
+            <a
+              href="#july2026"
+              class="rounded-full bg-brand px-7 py-[15px] text-[16px] font-semibold text-white no-underline hover:no-underline"
+            >Explore the {edition.shortDate} edition</a>
+            {site.registrationOpen ? (
+              <a
+                href={site.registerUrl}
+                target="_blank"
+                rel="noopener"
+                class="rounded-full border border-white/40 px-[27px] py-[14px] text-[16px] font-semibold text-white no-underline hover:no-underline"
+              >Register your interest</a>
+            ) : (
+              <span
+                aria-disabled="true"
+                title="Registration is currently closed"
+                class="cursor-not-allowed rounded-full border border-white/15 px-[27px] py-[14px] text-[16px] font-semibold text-white/35"
+              >Register your interest</span>
+            )}
+          </div>
+          <div class="mt-9 flex flex-wrap items-center gap-4">
+            <span class="text-[12.5px] font-semibold uppercase tracking-[0.12em] text-white/50">In partnership with</span>
+            <MicrosoftMark square={11} textClass="text-[19px]" />
+          </div>
+        </div>
+        <div class="w-full">
+          <div class="overflow-hidden rounded-[18px] border border-white/10 bg-white/[0.04] shadow-soft">
+            <img
+              src={withBase('assets/gallery/A38A2923.jpg')}
+              alt="Practitioners at a What's Next? panel discussion"
+              class="aspect-[4/3] w-full object-cover"
+              loading="eager"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -485,50 +493,27 @@ const galleryImages = edition.gallery.map(withBase);
   </script>
 
   <!-- FOOTER -->
-  <footer class="bg-navy text-white">
-    <div class="mx-auto max-w-shell px-6" style="padding:clamp(56px,7vw,84px) 24px 40px">
-      <div class="grid items-start gap-10 sm:grid-cols-2 lg:grid-cols-4">
-        <div>
-          <img src={withBase('assets/whats-next-logo-dark.png')} alt="What's Next?" class="mb-5 h-[38px] w-auto" />
-          <p class="max-w-[34ch] text-[14.5px] text-white/[0.66]">A mini-conference series on AI-Driven Development, organised by {site.organiser}.</p>
+  <footer class="text-white" style="background:#050507">
+    <div class="mx-auto max-w-shell px-6" style="padding:36px 24px 54px">
+      <div class="grid items-center gap-[30px] sm:grid-cols-[320px_1fr]">
+        <div class="flex flex-wrap gap-3">
+          <a href="https://www.zenika.com/en-SG" target="_blank" rel="noopener" class="rounded-full border border-white/[0.18] px-4 py-3 text-[14px] font-bold text-white no-underline hover:no-underline">Zenika Website</a>
+          <a href="https://jobs.zenika.sg/" target="_blank" rel="noopener" class="rounded-full border border-white/[0.18] px-4 py-3 text-[14px] font-bold text-white no-underline hover:no-underline">Zenika Jobs</a>
+          <a href="https://training.zenika.sg/" target="_blank" rel="noopener" class="rounded-full border border-white/[0.18] px-4 py-3 text-[14px] font-bold text-white no-underline hover:no-underline">Zenika SG Training</a>
         </div>
-        <div>
-          <div class="mb-4 text-[12px] font-semibold uppercase tracking-[0.14em] text-white/50">Explore</div>
-          <div class="flex flex-col gap-[11px]">
-            {navLinks.map((link) => (
-              <a href={link.href} class="text-[14.5px] text-white/80 no-underline hover:no-underline">{link.label}</a>
-            ))}
-          </div>
-        </div>
-        <div>
-          <div class="mb-4 text-[12px] font-semibold uppercase tracking-[0.14em] text-white/50">Get involved</div>
-          <div class="flex flex-col gap-[11px]">
-            {site.registrationOpen ? (
-              <>
-                <a href={site.registerUrl} target="_blank" rel="noopener" class="text-[14.5px] text-white/80 no-underline hover:no-underline">Register your interest</a>
-                <a href={site.registerUrl} target="_blank" rel="noopener" class="text-[14.5px] text-white/80 no-underline hover:no-underline">Speak at a future edition</a>
-              </>
-            ) : (
-              <>
-                <span aria-disabled="true" title="Registration is currently closed" class="cursor-not-allowed text-[14.5px] text-white/30">Register your interest</span>
-                <span aria-disabled="true" title="Registration is currently closed" class="cursor-not-allowed text-[14.5px] text-white/30">Speak at a future edition</span>
-              </>
-            )}
-          </div>
-        </div>
-        <div>
-          <div class="mb-4 text-[12px] font-semibold uppercase tracking-[0.14em] text-white/50">Organised by</div>
-          <div class="mb-1.5 font-display text-[24px] font-bold tracking-[-0.02em]">zenika<span class="text-brand">.</span></div>
-          <p class="text-[14px] text-white/60">{site.organiser}</p>
-          <div class="mt-[18px] flex items-center gap-2">
-            <span class="text-[12.5px] text-white/50">In partnership with</span>
-            <MicrosoftMark square={9} textClass="text-[14px]" colorClass="text-white/85" />
-          </div>
-        </div>
+        <p class="text-[15px] leading-[1.72] text-white/[0.76]">
+          {site.name} is a mini-conference series on AI-Driven Development, organised by {site.organiser} for the people actually shipping AI into production.
+        </p>
       </div>
-      <div class="mt-12 flex flex-wrap justify-between gap-4 border-t border-white/[0.12] pt-6">
-        <span class="text-[13px] text-white/50">© 2026 {site.organiser}. What's Next?</span>
-        <span class="text-[13px] text-white/50">Singapore</span>
+      <div class="mt-7 h-px bg-white/[0.12]"></div>
+      <div class="mt-[26px] grid place-items-center gap-[10px] text-center">
+        <img src={withBase('assets/zenika-logo.png')} alt="Zenika" class="h-11 w-auto" />
+        <p class="text-white/[0.74]">Practitioner-led conversation on AI-Driven Development, by {site.organiser}.</p>
+        <div class="flex items-center gap-2">
+          <span class="text-[12.5px] text-white/50">In partnership with</span>
+          <MicrosoftMark square={9} textClass="text-[14px]" colorClass="text-white/85" />
+        </div>
+        <small class="text-white/[0.74]">Copyright © 2026 {site.organiser}</small>
       </div>
     </div>
   </footer>
