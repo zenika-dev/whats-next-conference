@@ -17,8 +17,8 @@ export default {
         },
       },
       fontFamily: {
-        display: ['"Space Grotesk"', "system-ui", "sans-serif"],
-        sans: ['"IBM Plex Sans"', "system-ui", "sans-serif"],
+        display: ['"Nunito"', "system-ui", "sans-serif"],
+        sans: ['"Open Sans"', "system-ui", "sans-serif"],
       },
       maxWidth: {
         shell: "1180px",
