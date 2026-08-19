@@ -237,7 +237,13 @@ const galleryImages = edition.gallery.map(withBase);
           </div>
           <div class="relative w-full sm:max-w-[320px] sm:justify-self-end">
             {site.registrationOpen ? (
-              <form id="join-list-form" class="flex flex-col gap-2.5" data-brevo-action={site.brevoFormAction}>
+              <form
+                id="join-list-form"
+                class="flex flex-col gap-2.5"
+                method="post"
+                action={site.brevoFormAction}
+                target="join-list-frame"
+              >
                 <label for="join-list-email" class="sr-only">Email address</label>
                 <input
                   id="join-list-email"
@@ -256,6 +262,15 @@ const galleryImages = edition.gallery.map(withBase);
                 <input type="text" name="email_address_check" value="" class="hidden" aria-hidden="true" tabindex="-1" autocomplete="off" />
                 <input type="hidden" name="locale" value="en" />
                 <input type="hidden" name="html_type" value="simple" />
+                <!--
+                  With JS active, submit is intercepted below and this native
+                  action/target never fires. Without JS, the browser posts
+                  here directly instead of defaulting to a GET of the
+                  current page (which would leak the email into the URL),
+                  landing the response in this hidden iframe instead of
+                  navigating the visitor away.
+                -->
+                <iframe name="join-list-frame" title="Signup submission" class="hidden" aria-hidden="true"></iframe>
               </form>
             ) : (
               <span
@@ -316,10 +331,13 @@ const galleryImages = edition.gallery.map(withBase);
         status.className = 'min-h-[18px] text-[13px] text-white/60';
 
         try {
-          await submitToBrevo(joinListForm.dataset.brevoAction, new FormData(joinListForm));
+          await submitToBrevo(joinListForm.action, new FormData(joinListForm));
+          // Leaves the entered email in the field rather than clearing it:
+          // an opaque no-cors response can't confirm Brevo actually
+          // accepted the signup, so the field stays as-is in case the
+          // visitor needs to retry.
           status.textContent = 'Thanks — check your inbox to confirm.';
           status.className = 'min-h-[18px] text-[13px] text-brand-pink';
-          joinListForm.reset();
         } catch (error) {
           status.textContent = 'Something went wrong — please try again.';
           status.className = 'min-h-[18px] text-[13px] text-red-300';
