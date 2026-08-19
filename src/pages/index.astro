@@ -296,11 +296,11 @@ const galleryImages = edition.gallery.map(withBase);
       // Brevo's endpoint doesn't send CORS headers, so the response is
       // opaque and we can never read its status — a request that reaches
       // Brevo and one that gets a 4xx/5xx back look identical from here, no
-      // matter the transport. `no-cors` mode is the most honest signal
-      // available without a same-origin proxy: it still rejects on a real
-      // network-level failure (offline, blocked by an extension, DNS
-      // failure), so we only report success when the request actually made
-      // it out.
+      // matter the transport. Confirming real acceptance would need a
+      // same-origin proxy, which this static site doesn't have, so the copy
+      // below only promises what we can actually verify: the request left
+      // the browser. It intentionally stops short of claiming the address
+      // is confirmed subscribed.
       async function submitToBrevo(action, formData) {
         await fetch(action, {
           method: 'POST',
@@ -317,7 +317,7 @@ const galleryImages = edition.gallery.map(withBase);
 
         try {
           await submitToBrevo(joinListForm.dataset.brevoAction, new FormData(joinListForm));
-          status.textContent = "You're on the list — thanks!";
+          status.textContent = 'Thanks — check your inbox to confirm.';
           status.className = 'min-h-[18px] text-[13px] text-brand-pink';
           joinListForm.reset();
         } catch (error) {
