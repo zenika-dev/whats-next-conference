@@ -10,9 +10,8 @@ export const site = {
   showUpcoming: true,
   // Set false to disable the join-the-list CTAs across the page.
   registrationOpen: true,
-  // Brevo ("Join the list" newsletter) form endpoint — submitted via a hidden
-  // iframe so the visitor never leaves the page. Keep in sync with the form
-  // exported from the Brevo dashboard.
+  // Brevo ("Join the list" newsletter) form endpoint. Keep in sync with the
+  // form exported from the Brevo dashboard.
   brevoFormAction:
     "https://94c07529.sibforms.com/serve/MUIFANPYeB_9D29tb4X9s8ECGMlnaGokRn7pfQRVVlsoTYDeICtkSDjn5QeG332OP0z6fOW3ayCvnEP1M_JMIb1cAs2Yz8qnqzm1PojbX-V-B-FTCWW0snb6OVPyC56blHQkIoOWL63rBvbIcMTnhMnf6k2Tf86IYXdsev7URYapqIX26bYOQ0eYsMAAAhezPqCbQCCWwi719oRi",
 };

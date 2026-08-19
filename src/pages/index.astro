@@ -6,6 +6,10 @@ import { site, audience, themes, events } from '../data/events';
 
 const edition = events[0];
 
+// The #join-list form only exists in markup when the upcoming-edition
+// teaser is shown, so a CTA can only point at it when both are true.
+const joinListOpen = site.registrationOpen && site.showUpcoming;
+
 const speakerCompanies = [...new Set(edition.speakers.map((s) => s.company))];
 
 const navLinks = [
@@ -41,7 +45,7 @@ const galleryImages = edition.gallery.map(withBase);
         {navLinks.map((link) => (
           <a href={link.href} class="text-[14.5px] font-medium text-white/80 no-underline hover:text-white hover:no-underline">{link.label}</a>
         ))}
-        {site.registrationOpen ? (
+        {joinListOpen ? (
           <a
             href="#join-list"
             class="rounded-full bg-brand px-5 py-2.5 text-[14.5px] font-semibold text-white no-underline hover:bg-brand hover:no-underline"
@@ -71,7 +75,7 @@ const galleryImages = edition.gallery.map(withBase);
       {navLinks.map((link) => (
         <a href={link.href} class="rounded-lg px-2 py-2.5 text-[15px] font-medium text-white/80 no-underline hover:bg-white/5 hover:text-white hover:no-underline">{link.label}</a>
       ))}
-      {site.registrationOpen ? (
+      {joinListOpen ? (
         <a
           href="#join-list"
           class="mt-2 rounded-full bg-brand px-5 py-2.5 text-center text-[14.5px] font-semibold text-white no-underline hover:no-underline"
@@ -141,7 +145,7 @@ const galleryImages = edition.gallery.map(withBase);
               href="#july2026"
               class="rounded-full bg-brand px-7 py-[15px] text-[16px] font-semibold text-white no-underline hover:no-underline"
             >Explore the {edition.shortDate} edition</a>
-            {site.registrationOpen ? (
+            {joinListOpen ? (
               <a
                 href="#join-list"
                 class="rounded-full border border-white/40 px-[27px] py-[14px] text-[16px] font-semibold text-white no-underline hover:no-underline"
@@ -289,60 +293,19 @@ const galleryImages = edition.gallery.map(withBase);
       const status = document.getElementById('join-list-status');
       const button = joinListForm.querySelector('button[type="submit"]');
 
-      // Brevo's endpoint doesn't send CORS headers, so a fetch() can't read
-      // the response. Instead we POST through a hidden iframe (like an
-      // old-school target="_blank" form) so the page never navigates and we
-      // never need to read the response body. A cross-origin iframe fires
-      // `load` once for its initial blank document and again once Brevo's
-      // response arrives, so we wait for the second load — with a timed
-      // fallback in case a browser only fires it once.
-      function submitToBrevo(action, formData) {
-        return new Promise((resolve) => {
-          const iframeName = `brevo-submit-${Date.now()}`;
-          const iframe = document.createElement('iframe');
-          iframe.name = iframeName;
-          iframe.style.display = 'none';
-          document.body.appendChild(iframe);
-
-          const proxyForm = document.createElement('form');
-          proxyForm.method = 'post';
-          proxyForm.action = action;
-          proxyForm.target = iframeName;
-          proxyForm.style.display = 'none';
-          formData.forEach((value, key) => {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = key;
-            input.value = String(value);
-            proxyForm.appendChild(input);
-          });
-          document.body.appendChild(proxyForm);
-
-          let loadCount = 0;
-          let done = false;
-
-          const cleanup = () => {
-            proxyForm.remove();
-            iframe.remove();
-          };
-          const finish = () => {
-            if (done) return;
-            done = true;
-            clearTimeout(minWait);
-            clearTimeout(maxWait);
-            cleanup();
-            resolve();
-          };
-
-          iframe.addEventListener('load', () => {
-            loadCount += 1;
-            if (loadCount >= 2) finish();
-          });
-
-          const minWait = setTimeout(finish, 8000);
-          const maxWait = setTimeout(cleanup, 60000);
-
-          proxyForm.submit();
+      // Brevo's endpoint doesn't send CORS headers, so the response is
+      // opaque and we can never read its status — a request that reaches
+      // Brevo and one that gets a 4xx/5xx back look identical from here, no
+      // matter the transport. `no-cors` mode is the most honest signal
+      // available without a same-origin proxy: it still rejects on a real
+      // network-level failure (offline, blocked by an extension, DNS
+      // failure), so we only report success when the request actually made
+      // it out.
+      async function submitToBrevo(action, formData) {
+        await fetch(action, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: new URLSearchParams(formData),
         });
       }
 
@@ -352,12 +315,17 @@ const galleryImages = edition.gallery.map(withBase);
         status.textContent = 'Submitting…';
         status.className = 'min-h-[18px] text-[13px] text-white/60';
 
-        await submitToBrevo(joinListForm.dataset.brevoAction, new FormData(joinListForm));
-
-        button.disabled = false;
-        status.textContent = "You're on the list — thanks!";
-        status.className = 'min-h-[18px] text-[13px] text-brand-pink';
-        joinListForm.reset();
+        try {
+          await submitToBrevo(joinListForm.dataset.brevoAction, new FormData(joinListForm));
+          status.textContent = "You're on the list — thanks!";
+          status.className = 'min-h-[18px] text-[13px] text-brand-pink';
+          joinListForm.reset();
+        } catch (error) {
+          status.textContent = 'Something went wrong — please try again.';
+          status.className = 'min-h-[18px] text-[13px] text-red-300';
+        } finally {
+          button.disabled = false;
+        }
       });
     }
   </script>
