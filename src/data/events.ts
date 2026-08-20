@@ -7,10 +7,13 @@ export const site = {
   tagline: "Where Singapore's builders ask what comes after the hype.",
   intro:
     "A recurring evening of candid, practitioner-led conversation on AI-Driven Development: the workflows, tools and transformation reshaping how software gets built.",
-  registerUrl: "https://lu.ma/whatsnext",
   showUpcoming: true,
-  // Set true to re-enable the registration CTAs across the page.
-  registrationOpen: false,
+  // Set false to disable the join-the-list CTAs across the page.
+  registrationOpen: true,
+  // Brevo ("Join the list" newsletter) form endpoint. Keep in sync with the
+  // form exported from the Brevo dashboard.
+  brevoFormAction:
+    "https://94c07529.sibforms.com/serve/MUIFANPYeB_9D29tb4X9s8ECGMlnaGokRn7pfQRVVlsoTYDeICtkSDjn5QeG332OP0z6fOW3ayCvnEP1M_JMIb1cAs2Yz8qnqzm1PojbX-V-B-FTCWW0snb6OVPyC56blHQkIoOWL63rBvbIcMTnhMnf6k2Tf86IYXdsev7URYapqIX26bYOQ0eYsMAAAhezPqCbQCCWwi719oRi",
 };
 
 export const audience = [
